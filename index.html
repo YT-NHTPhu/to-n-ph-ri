@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đề Kiểm Tra Tự Luận: Định Lý Sin và Cô-sin (Làm Trên Giấy)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .math-font {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Thanh cuộn mảnh thẩm mỹ */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-100/70 text-slate-800 min-h-screen flex flex-col selection:bg-indigo-100 selection:text-indigo-900">
+
+  <!-- TOP HEADER (CỐ ĐỊNH TRÊN CÙNG) -->
+  <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-3">
+      
+      <!-- Tiêu đề môn học -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-200">
+          <i class="fa-solid fa-pen-nib text-lg"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm sm:text-lg font-extrabold text-slate-900 leading-tight">Toán 10 • Kiểm Tra Tự Luận</h1>
+            <span class="text-[11px] font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full border border-amber-200 hidden sm:inline-block">Làm bài trên giấy</span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium">Chủ đề: Định lý Sin, Định lý Cô-sin & Giải tam giác</p>
+        </div>
+      </div>
+
+      <!-- ĐỒNG HỒ 15 PHÚT & NÚT NỘP NHANH TRÊN HEADER -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <!-- Badge thời gian -->
+        <div id="timer-badge" class="hidden items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl font-bold transition-all shadow-xs">
+          <i class="fa-regular fa-clock text-slate-500 text-sm" id="timer-icon"></i>
+          <span id="timer-display" class="math-font text-sm sm:text-base tracking-wider text-slate-900 font-bold">15:00</span>
+        </div>
+
+        <!-- Nút Nộp Bài Header (Chỉ hiện khi đang làm bài) -->
+        <button id="header-submit-btn" onclick="confirmSubmitModal()" class="hidden px-3.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-emerald-600/20 transition-all items-center gap-1.5">
+          <i class="fa-solid fa-check"></i>
+          <span>Nộp bài & Dò đáp án</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Thanh tiến độ thời gian 15 phút -->
+    <div id="timer-progress-wrap" class="w-full bg-slate-100 h-1 hidden">
+      <div id="timer-progress-bar" class="h-full bg-indigo-600 transition-all duration-1000 ease-linear w-full"></div>
+    </div>
+  </header>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <main class="flex-grow max-w-7xl w-full mx-auto p-3 sm:p-6 lg:p-8">
+
+    <!-- 1. MÀN HÌNH BẮT ĐẦU (START SCREEN) -->
+    <section id="screen-welcome" class="max-w-2xl mx-auto my-6 sm:my-10 bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200 text-center relative overflow-hidden">
+      <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-5 text-3xl shadow-sm">
+        <i class="fa-solid fa-file-lines"></i>
+      </div>
+
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
+        Bài Kiểm Tra Tự Luận: Định Lý Sin & Cô-sin
+      </h2>
+      <p class="text-sm sm:text-base text-slate-600 mb-6">
+        Thời gian làm bài: <strong class="text-indigo-600 math-font text-lg">15 Phút</strong> | Gồm <strong class="text-slate-900">10 câu tự luận</strong>
+      </p>
+
+      <!-- Hướng dẫn cách làm bài -->
+      <div class="bg-amber-50/80 border border-amber-200 rounded-2xl p-5 text-left text-xs sm:text-sm text-slate-700 space-y-3 mb-8">
+        <div class="font-bold text-amber-900 flex items-center gap-2 text-sm uppercase tracking-wide">
+          <i class="fa-solid fa-pencil text-amber-600"></i> Quy định làm bài trên giấy:
+        </div>
+        <ul class="space-y-2.5">
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-amber-200 text-amber-900 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+            <span>Chuẩn bị sẵn <strong>giấy làm bài, bút và máy tính cầm tay</strong> trước mặt.</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-amber-200 text-amber-900 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+            <span>Đề bài được hiển thị <strong>toàn màn hình, chữ to rõ</strong>. Toàn bộ các ô tích đánh dấu hoàn thành nằm riêng ở <strong>bảng bên ngoài</strong> (Sidebar hoặc thanh Dock dưới chân trang) để không làm rối mắt.</span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <span class="w-5 h-5 rounded-full bg-amber-200 text-amber-900 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+            <span>Bấm <strong>"Nộp bài & Dò đáp án"</strong> bất kỳ lúc nào hoặc hệ thống sẽ tự thu bài khi hết đúng 15 phút để bạn chấm điểm đối chiếu từng bước.</span>
+          </li>
+        </ul>
+      </div>
+
+      <button onclick="startExamSession()" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-2xl shadow-lg shadow-indigo-500/25 transition-all transform active:scale-95 inline-flex items-center justify-center gap-3 text-base cursor-pointer">
+        <span>Bắt đầu làm bài (15 Phút)</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </section>
+
+    <!-- 2. MÀN HÌNH LÀM BÀI (EXAM SCREEN VỚI Ô TÍCH NẰM NGOÀI ĐỀ) -->
+    <section id="screen-exam" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        <!-- CỘT CHÍNH (8 CỘT): HIỂN THỊ ĐỀ BÀI LIỀN MẠCH, CHỮ TO RÕ -->
+        <div class="lg:col-span-8 space-y-6">
+          
+          <!-- Hộp thông báo chế độ đọc đề -->
+          <div class="bg-blue-50/70 border border-blue-200 rounded-2xl p-4 flex items-center justify-between text-xs sm:text-sm text-blue-900">
+            <div class="flex items-center gap-2.5">
+              <i class="fa-solid fa-book-open text-blue-600 text-base"></i>
+              <span><strong>Khu vực đề bài:</strong> Đọc đề và trình bày chi tiết vào giấy của bạn.</span>
+            </div>
+            <span class="hidden sm:inline-block font-semibold text-blue-700">10 Câu tự luận</span>
+          </div>
+
+          <!-- Danh sách 10 câu hỏi dạng thẻ thoáng, cỡ chữ lớn -->
+          <div id="questions-container" class="space-y-6">
+            <!-- Render qua Javascript -->
+          </div>
+
+          <!-- Nút nộp bài lớn ở cuối đề -->
+          <div class="bg-white rounded-3xl p-6 border border-slate-200 text-center space-y-3 shadow-sm mb-16 lg:mb-6">
+            <h4 class="font-bold text-slate-800 text-base">Đã giải xong tất cả các câu trên giấy?</h4>
+            <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">Kiểm tra lại bài làm trên giấy một lần nữa trước khi chuyển sang xem đáp án và tự chấm điểm.</p>
+            <button onclick="confirmSubmitModal()" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-2xl shadow-lg shadow-emerald-600/25 transition-all text-sm sm:text-base inline-flex items-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Nộp bài & Mở bảng dò đáp án</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CỘT PHỤ (4 CỘT TRÊN MÁY TÍNH): BẢNG Ô TÍCH RIÊNG BIỆT Ở NGOÀI CỐ ĐỊNH -->
+        <div class="hidden lg:block lg:col-span-4 sticky top-20">
+          <div class="bg-white rounded-3xl p-5 border border-slate-200 shadow-sm space-y-4">
+            
+            <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wide flex items-center gap-2">
+                  <i class="fa-solid fa-list-check text-indigo-600"></i> Ô tích theo dõi trên giấy
+                </h3>
+                <p class="text-[11px] text-slate-400">Tích chọn để đánh dấu câu đã làm xong</p>
+              </div>
+              <span id="tracker-counter" class="text-xs font-extrabold px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg">0/10</span>
+            </div>
+
+            <!-- Danh sách 10 ô tích độc lập -->
+            <div id="tracker-sidebar-list" class="space-y-2 max-h-[calc(100vh-250px)] overflow-y-auto pr-1">
+              <!-- Render 10 checkbox qua Javascript -->
+            </div>
+
+            <button onclick="confirmSubmitModal()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-md shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-check"></i>
+              <span>Nộp bài & Dò đáp án</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DOCK Ô TÍCH DƯỚI ĐÁY MÀN HÌNH (DÀNH RIÊNG CHO ĐIỆN THOẠI) -->
+      <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 p-3 z-30 shadow-2xl">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-check-double text-indigo-600"></i> Ô tích đã làm trên giấy:
+          </span>
+          <span id="mobile-tracker-counter" class="text-xs font-extrabold text-indigo-700">0/10 câu</span>
+        </div>
+        <div id="tracker-mobile-row" class="flex items-center gap-1.5 overflow-x-auto pb-1">
+          <!-- Render các nút checkbox nhỏ cho mobile -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. MÀN HÌNH DÒ ĐÁP ÁN & TỰ CHẤM ĐIỂM (GRADING SCREEN) -->
+    <section id="screen-grading" class="hidden space-y-6">
+      
+      <!-- BẢNG TỔNG HỢP ĐIỂM SỐ TỰ CHẤM -->
+      <div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-blue-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="text-center md:text-left">
+            <span class="inline-block px-3 py-1 bg-white/10 text-indigo-200 text-xs font-bold rounded-full uppercase tracking-wider mb-2">
+              Chế độ dò đáp án & Tự chấm
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Hướng Dẫn Giải & Thang Điểm</h2>
+            <p class="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl leading-relaxed">
+              Hãy đối chiếu chi tiết từng bước giải với bài làm trên giấy của bạn. Bấm <strong class="text-emerald-400">"Đúng (+1đ)"</strong> hoặc <strong class="text-rose-400">"Sai (0đ)"</strong> để hệ thống tự cộng điểm.
+            </p>
+          </div>
+
+          <!-- Ô hiển thị điểm số lớn -->
+          <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 text-center min-w-[210px] shrink-0">
+            <div class="text-xs uppercase font-bold text-slate-300 tracking-wider">Tổng điểm tự chấm</div>
+            <div class="text-4xl sm:text-5xl font-extrabold text-amber-400 my-1 math-font" id="final-total-score">0 / 10</div>
+            <div class="text-xs text-slate-300 font-medium" id="final-rating-text">Bắt đầu chấm bài bên dưới!</div>
+          </div>
+        </div>
+
+        <!-- Thanh công cụ phụ -->
+        <div class="relative z-10 flex flex-wrap gap-3 mt-6 pt-6 border-t border-white/10 no-print">
+          <button onclick="window.print()" class="px-4 py-2 bg-white/15 hover:bg-white/25 rounded-xl text-xs sm:text-sm font-semibold transition-all inline-flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-print"></i> In lời giải / Lưu PDF
+          </button>
+          <button onclick="restartExam()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl text-xs sm:text-sm font-semibold transition-all inline-flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-arrow-rotate-right"></i> Làm lại bài mới (15 phút)
+          </button>
+        </div>
+      </div>
+
+      <!-- DANH SÁCH LỜI GIẢI CHI TIẾT 10 CÂU & CÔNG CỤ CHẤM ĐIỂM -->
+      <div id="solutions-container" class="space-y-6">
+        <!-- Render qua Javascript -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL XÁC NHẬN NỘP BÀI -->
+  <div id="modal-submit" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+      <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4 text-xl">
+        <i class="fa-solid fa-clipboard-check"></i>
+      </div>
+      <h3 class="text-lg font-bold text-slate-900 mb-1.5">Xác nhận nộp bài kiểm tra?</h3>
+      <p id="modal-submit-text" class="text-sm text-slate-600 mb-6 leading-relaxed">
+        Bạn có chắc muốn kết thúc thời gian làm bài để chuyển sang xem đáp án và tự chấm điểm không?
+      </p>
+      <div class="flex items-center justify-end gap-3">
+        <button onclick="closeSubmitModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-medium text-sm transition-all cursor-pointer">
+          Làm tiếp
+        </button>
+        <button onclick="submitExamNow()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm shadow-md transition-all cursor-pointer">
+          Đồng ý nộp bài
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL HẾT GIỜ -->
+  <div id="modal-timeout" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl border border-slate-200">
+      <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-hourglass-end animate-bounce"></i>
+      </div>
+      <h3 class="text-xl font-bold text-slate-900 mb-2">Đã hết 15 phút!</h3>
+      <p class="text-sm text-slate-600 mb-6">
+        Thời gian làm bài trên giấy đã kết thúc. Hãy dừng bút và chuyển sang xem đáp án chi tiết.
+      </p>
+      <button onclick="submitExamNow()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all cursor-pointer">
+        Xem đáp án & Tự chấm ngay
+      </button>
+    </div>
+  </div>
+
+  <footer class="py-4 text-center text-xs text-slate-400 border-t border-slate-200 bg-white no-print mt-auto">
+    Đề kiểm tra tự luận Toán lớp 10 • Định lý Sin, Định lý Cô-sin & Diện tích tam giác
+  </footer>
+
+  <script>
+    // 10 CÂU HỎI TỰ LUẬN CHUẨN KIẾN THỨC TOÁN 10
+    const questionsData = [
+      {
+        id: 1,
+        title: "Câu 1: Tính cạnh theo Định lý Cô-sin",
+        badge: "Định lý Cô-sin",
+        content: "Cho tam giác ABC có độ dài cạnh <span class='math-font font-bold text-indigo-700'>b = 8</span>, <span class='math-font font-bold text-indigo-700'>c = 5</span> và góc <span class='math-font font-bold text-indigo-700'>A = 60°</span>. Hãy tính độ dài cạnh <span class='math-font font-bold text-indigo-700'>a</span>.",
+        resultShort: "a = 7",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Áp dụng định lý Cô-sin cho cạnh <span class="math-font font-semibold">a</span>:
+              <div class="my-1.5 p-2 bg-slate-100 rounded-lg text-indigo-900 font-mono text-xs sm:text-sm">a² = b² + c² - 2bc · cos(A)</div>
+            </li>
+            <li>Thay số:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">a² = 8² + 5² - 2 · 8 · 5 · cos(60°)</div>
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">a² = 64 + 25 - 80 · (1/2) = 89 - 40 = 49</div>
+            </li>
+            <li>Vì <span class="math-font">a > 0</span> nên: <strong>a = √49 = 7</strong>.</li>
+          </ul>
+        `
+      },
+      {
+        id: 2,
+        title: "Câu 2: Tính góc và xác định góc nhọn hay tù",
+        badge: "Hệ quả Định lý Cos",
+        content: "Cho tam giác ABC có ba cạnh lần lượt là <span class='math-font font-bold text-indigo-700'>a = 13</span>, <span class='math-font font-bold text-indigo-700'>b = 14</span>, <span class='math-font font-bold text-indigo-700'>c = 15</span>. Hãy tính <span class='math-font font-bold text-indigo-700'>cos(A)</span> và cho biết góc A là góc nhọn hay góc tù.",
+        resultShort: "cos(A) = 3/5 (≈ 0.6) và góc A là GÓC NHỌN",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Theo hệ quả định lý Cô-sin:
+              <div class="my-1.5 p-2 bg-slate-100 rounded-lg text-indigo-900 font-mono text-xs sm:text-sm">cos(A) = (b² + c² - a²) / (2bc)</div>
+            </li>
+            <li>Thay số:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">cos(A) = (14² + 15² - 13²) / (2 · 14 · 15)</div>
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">cos(A) = (196 + 225 - 169) / 420 = 252 / 420 = 3/5 = 0.6</div>
+            </li>
+            <li>Vì <span class="math-font font-semibold">cos(A) = 0.6 > 0</span> nên góc <span class="math-font font-semibold">A</span> là <strong>góc nhọn</strong> (xấp xỉ 53°7').</li>
+          </ul>
+        `
+      },
+      {
+        id: 3,
+        title: "Câu 3: Tính bán kính đường tròn ngoại tiếp R",
+        badge: "Định lý Sin",
+        content: "Cho tam giác ABC có cạnh <span class='math-font font-bold text-indigo-700'>a = 10</span>, góc <span class='math-font font-bold text-indigo-700'>B = 45°</span>, góc <span class='math-font font-bold text-indigo-700'>C = 75°</span>. Hãy tính bán kính <span class='math-font font-bold text-indigo-700'>R</span> của đường tròn ngoại tiếp tam giác.",
+        resultShort: "R = (10√3) / 3 ≈ 5.77",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Tính góc A:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">Góc A = 180° - (45° + 75°) = 60°</div>
+            </li>
+            <li>Áp dụng định lý Sin:
+              <div class="my-1.5 p-2 bg-slate-100 rounded-lg text-indigo-900 font-mono text-xs sm:text-sm">a / sin(A) = 2R &rArr; R = a / [2 · sin(A)]</div>
+            </li>
+            <li>Thay số:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">R = 10 / [2 · sin(60°)] = 10 / [2 · (√3 / 2)] = 10 / √3 = (10√3) / 3 ≈ 5.77</div>
+            </li>
+          </ul>
+        `
+      },
+      {
+        id: 4,
+        title: "Câu 4: Tính độ dài đường trung tuyến",
+        badge: "Công thức Trung Tuyến",
+        content: "Cho tam giác ABC có ba cạnh <span class='math-font font-bold text-indigo-700'>a = 6</span>, <span class='math-font font-bold text-indigo-700'>b = 7</span>, <span class='math-font font-bold text-indigo-700'>c = 5</span>. Tính độ dài đường trung tuyến <span class='math-font font-bold text-indigo-700'>m<sub>a</sub></span> xuất phát từ đỉnh A.",
+        resultShort: "m_a = 2√7 ≈ 5.29",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Áp dụng công thức đường trung tuyến:
+              <div class="my-1.5 p-2 bg-slate-100 rounded-lg text-indigo-900 font-mono text-xs sm:text-sm">m<sub>a</sub>² = (2b² + 2c² - a²) / 4</div>
+            </li>
+            <li>Thay số:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">m<sub>a</sub>² = [2 · 7² + 2 · 5² - 6²] / 4 = [2 · 49 + 2 · 25 - 36] / 4 = 112 / 4 = 28</div>
+            </li>
+            <li>Vậy: <strong>m<sub>a</sub> = √28 = 2√7 ≈ 5.29</strong>.</li>
+          </ul>
+        `
+      },
+      {
+        id: 5,
+        title: "Câu 5: Tính diện tích tam giác",
+        badge: "Công thức Diện tích",
+        content: "Cho tam giác ABC có hai cạnh <span class='math-font font-bold text-indigo-700'>b = 10</span>, <span class='math-font font-bold text-indigo-700'>c = 6</span> và biết <span class='math-font font-bold text-indigo-700'>cos(A) = 3/5</span>. Hãy tính diện tích <span class='math-font font-bold text-indigo-700'>S</span> của tam giác ABC.",
+        resultShort: "S = 24",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Vì góc A trong tam giác luôn có <span class="math-font">sin(A) > 0</span>:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">sin(A) = √(1 - cos²(A)) = √(1 - (3/5)²) = 4/5</div>
+            </li>
+            <li>Diện tích tam giác:
+              <div class="my-1.5 p-2 bg-slate-100 rounded-lg text-indigo-900 font-mono text-xs sm:text-sm">S = 1/2 · b · c · sin(A) = 1/2 · 10 · 6 · (4/5) = 24</div>
+            </li>
+            <li>Kết luận: Diện tích <strong>S = 24 (đvdt)</strong>.</li>
+          </ul>
+        `
+      },
+      {
+        id: 6,
+        title: "Câu 6: Bán kính đường tròn nội tiếp r",
+        badge: "Heron & Bán kính r",
+        content: "Cho tam giác ABC có ba cạnh là <span class='math-font font-bold text-indigo-700'>a = 8</span>, <span class='math-font font-bold text-indigo-700'>b = 10</span>, <span class='math-font font-bold text-indigo-700'>c = 12</span>. Hãy tính bán kính <span class='math-font font-bold text-indigo-700'>r</span> của đường tròn nội tiếp tam giác.",
+        resultShort: "r = √7 ≈ 2.65",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Nửa chu vi tam giác:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">p = (8 + 10 + 12) / 2 = 15</div>
+            </li>
+            <li>Diện tích theo công thức Heron:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">S = √(15 · (15 - 8) · (15 - 10) · (15 - 12)) = √(15 · 7 · 5 · 3) = 15√7</div>
+            </li>
+            <li>Bán kính đường tròn nội tiếp:
+              <div class="my-1.5 p-2 bg-slate-100 rounded-lg text-indigo-900 font-mono text-xs sm:text-sm">r = S / p = (15√7) / 15 = √7 ≈ 2.65</div>
+            </li>
+          </ul>
+        `
+      },
+      {
+        id: 7,
+        title: "Câu 7: Cạnh đối diện góc tù và diện tích",
+        badge: "Góc tù 120°",
+        content: "Cho tam giác ABC có góc <span class='math-font font-bold text-indigo-700'>A = 120°</span>, cạnh <span class='math-font font-bold text-indigo-700'>b = 6</span>, <span class='math-font font-bold text-indigo-700'>c = 4</span>. Tính độ dài cạnh <span class='math-font font-bold text-indigo-700'>a</span> và diện tích <span class='math-font font-bold text-indigo-700'>S</span>.",
+        resultShort: "a = 2√19 (≈ 8.72) và S = 6√3 (≈ 10.39)",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Tính cạnh a (với <span class="math-font">cos(120°) = -1/2</span>):
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">a² = 6² + 4² - 2 · 6 · 4 · (-1/2) = 36 + 16 + 24 = 76 &rArr; a = √76 = 2√19 ≈ 8.72</div>
+            </li>
+            <li>Tính diện tích S (với <span class="math-font">sin(120°) = √3/2</span>):
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">S = 1/2 · 6 · 4 · (√3 / 2) = 6√3 ≈ 10.39</div>
+            </li>
+          </ul>
+        `
+      },
+      {
+        id: 8,
+        title: "Câu 8: Chứng minh tam giác cân",
+        badge: "Chứng minh hệ thức",
+        content: "Cho tam giác ABC thỏa mãn hệ thức: <span class='math-font font-bold text-indigo-700'>a = 2b · cos(C)</span>. Chứng minh rằng tam giác ABC là tam giác cân.",
+        resultShort: "Tam giác ABC cân tại đỉnh A (cạnh b = c)",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Theo định lý Cô-sin: <span class="math-font">cos(C) = (a² + b² - c²) / (2ab)</span>.</li>
+            <li>Thay vào hệ thức đã cho:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">a = 2b · [(a² + b² - c²) / (2ab)] = (a² + b² - c²) / a</div>
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">&rArr; a² = a² + b² - c² &rArr; b² = c² &rArr; b = c</div>
+            </li>
+            <li>Vì <span class="math-font">b = c</span> (hay cạnh AC = AB) nên tam giác ABC cân tại đỉnh A (đpcm).</li>
+          </ul>
+        `
+      },
+      {
+        id: 9,
+        title: "Câu 9: Bài toán thực tế - Khoảng cách hai tàu thủy",
+        badge: "Thực tế đo đạc",
+        content: "Hai tàu thủy cùng xuất phát từ bến cảng O. Tàu thứ nhất chạy với vận tốc <span class='math-font font-bold text-indigo-700'>v₁ = 20 km/h</span> theo hướng Đông. Tàu thứ hai chạy với vận tốc <span class='math-font font-bold text-indigo-700'>v₂ = 30 km/h</span> tạo với hướng Đông một góc <span class='math-font font-bold text-indigo-700'>60°</span>. Sau <span class='math-font font-bold text-indigo-700'>2 giờ</span>, khoảng cách giữa hai tàu là bao nhiêu kilômét?",
+        resultShort: "Khoảng cách ≈ 52.92 km (20√7 km)",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Sau 2 giờ:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">Quãng đường tàu 1: OA = 20 · 2 = 40 (km)</div>
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">Quãng đường tàu 2: OB = 30 · 2 = 60 (km)</div>
+              Góc giữa hai hướng đi là góc <span class="math-font">AOB = 60°</span>.
+            </li>
+            <li>Khoảng cách hai tàu AB theo định lý Cô-sin:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">AB² = 40² + 60² - 2 · 40 · 60 · cos(60°) = 1600 + 3600 - 2400 = 2800</div>
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">AB = √2800 = 20√7 ≈ 52.92 km</div>
+            </li>
+          </ul>
+        `
+      },
+      {
+        id: 10,
+        title: "Câu 10: Giải tam giác theo Định lý Sin",
+        badge: "Giải tam giác",
+        content: "Cho tam giác ABC có góc <span class='math-font font-bold text-indigo-700'>B = 60°</span>, góc <span class='math-font font-bold text-indigo-700'>C = 45°</span> và cạnh <span class='math-font font-bold text-indigo-700'>c = 4</span>. Hãy tính chính xác độ dài cạnh <span class='math-font font-bold text-indigo-700'>b</span> và cạnh <span class='math-font font-bold text-indigo-700'>a</span>.",
+        resultShort: "b = 2√6 ≈ 4.90 và a = 2 + 2√3 ≈ 5.46",
+        solution: `
+          <ul class="list-disc list-inside space-y-1.5 text-slate-700 text-sm">
+            <li>Tính cạnh b theo định lý Sin:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">b = [c · sin(B)] / sin(C) = [4 · sin(60°)] / sin(45°) = [4 · (√3/2)] / (√2/2) = 2√6 ≈ 4.90</div>
+            </li>
+            <li>Tính cạnh a:
+              <div class="my-1 font-mono text-xs sm:text-sm text-slate-600">Góc A = 180° - (60° + 45°) = 75° &rArr; a = [c · sin(75°)] / sin(45°) = 2 + 2√3 ≈ 5.46</div>
+            </li>
+          </ul>
+        `
+      }
+    ];
+
+    // Trạng thái hệ thống
+    const EXAM_DURATION = 15 * 60; // 15 phút (900 giây)
+    let timeRemaining = EXAM_DURATION;
+    let timerInterval = null;
+    let paperCheckStatus = {}; // { [id]: boolean }
+    let selfGradingScores = {}; // { [id]: 1 hoặc 0 }
+
+    window.onload = function() {
+      renderQuestions();
+      renderTrackers();
+    };
+
+    // Render danh sách 10 câu hỏi đề bài to rõ
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = questionsData.map((q) => `
+        <div id="q-section-${q.id}" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm transition-all">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center shrink-0">
+                ${q.id}
+              </span>
+              <h3 class="font-extrabold text-slate-900 text-base sm:text-lg">${q.title}</h3>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100">
+              ${q.badge}
+            </span>
+          </div>
+
+          <!-- Nội dung đề bài to rõ, dễ đọc khi nhìn từ xa làm trên giấy -->
+          <div class="text-slate-800 text-base sm:text-lg leading-relaxed font-normal">
+            ${q.content}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render bảng ô tích tracker ở ngoài đề
+    function renderTrackers() {
+      // 1. Sidebar tracker trên desktop
+      const sidebarContainer = document.getElementById('tracker-sidebar-list');
+      sidebarContainer.innerHTML = questionsData.map((q) => `
+        <div 
+          id="sidebar-row-${q.id}" 
+          class="flex items-center justify-between p-3 rounded-2xl border border-slate-200 hover:border-indigo-300 bg-slate-50/50 transition-all">
+          
+          <button 
+            type="button"
+            onclick="scrollToQuestion(${q.id})"
+            class="text-left font-bold text-xs sm:text-sm text-slate-700 hover:text-indigo-600 flex items-center gap-2 cursor-pointer">
+            <span class="w-5 h-5 rounded-md bg-slate-200 text-slate-700 text-xs flex items-center justify-center font-bold">${q.id}</span>
+            <span>Câu ${q.id}</span>
+          </button>
+
+          <!-- Ô tích ĐÃ LÀM RA GIẤY -->
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <span class="text-xs font-medium text-slate-500 hidden sm:inline" id="label-status-${q.id}">Chưa làm</span>
+            <input 
+              type="checkbox" 
+              id="check-desktop-${q.id}" 
+              onchange="onCheckPaper(${q.id}, this.checked)"
+              class="w-5 h-5 rounded-md text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer"
+            >
+          </label>
+        </div>
+      `).join('');
+
+      // 2. Mobile row tracker dưới đáy
+      const mobileContainer = document.getElementById('tracker-mobile-row');
+      mobileContainer.innerHTML = questionsData.map((q) => `
+        <button 
+          id="btn-mobile-pill-${q.id}"
+          onclick="toggleMobileCheck(${q.id})"
+          class="px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-slate-50 text-slate-700 flex items-center gap-1.5 shrink-0 whitespace-nowrap">
+          <span>Câu ${q.id}</span>
+          <i class="fa-regular fa-square text-slate-400" id="icon-mobile-${q.id}"></i>
+        </button>
+      `).join('');
+    }
+
+    // Cuộn tới câu hỏi tương ứng
+    function scrollToQuestion(id) {
+      const el = document.getElementById(`q-section-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    // Xử lý khi tích vào ô làm xong trên giấy
+    function onCheckPaper(id, isChecked) {
+      paperCheckStatus[id] = isChecked;
+
+      // Cập nhật desktop sidebar
+      const row = document.getElementById(`sidebar-row-${id}`);
+      const label = document.getElementById(`label-status-${id}`);
+      const desktopCheckbox = document.getElementById(`check-desktop-${id}`);
+      if (desktopCheckbox) desktopCheckbox.checked = isChecked;
+
+      // Cập nhật viền câu hỏi trong đề
+      const card = document.getElementById(`q-section-${id}`);
+
+      if (isChecked) {
+        row.className = "flex items-center justify-between p-3 rounded-2xl border border-emerald-300 bg-emerald-50/70 transition-all";
+        label.innerText = "Đã xong";
+        label.className = "text-xs font-bold text-emerald-700";
+        card.classList.add('border-emerald-300', 'bg-emerald-50/10');
+      } else {
+        row.className = "flex items-center justify-between p-3 rounded-2xl border border-slate-200 hover:border-indigo-300 bg-slate-50/50 transition-all";
+        label.innerText = "Chưa làm";
+        label.className = "text-xs font-medium text-slate-500";
+        card.classList.remove('border-emerald-300', 'bg-emerald-50/10');
+      }
+
+      // Cập nhật mobile pill
+      const mobilePill = document.getElementById(`btn-mobile-pill-${id}`);
+      const mobileIcon = document.getElementById(`icon-mobile-${id}`);
+      if (isChecked) {
+        mobilePill.className = "px-3 py-1.5 rounded-xl border border-emerald-500 text-xs font-bold bg-emerald-600 text-white flex items-center gap-1.5 shrink-0 whitespace-nowrap shadow-xs";
+        mobileIcon.className = "fa-solid fa-square-check text-white";
+      } else {
+        mobilePill.className = "px-3 py-1.5 rounded-xl border border-slate-300 text-xs font-bold bg-slate-50 text-slate-700 flex items-center gap-1.5 shrink-0 whitespace-nowrap";
+        mobileIcon.className = "fa-regular fa-square text-slate-400";
+      }
+
+      // Cập nhật số đếm
+      updateCompletedCount();
+    }
+
+    function toggleMobileCheck(id) {
+      const current = !!paperCheckStatus[id];
+      onCheckPaper(id, !current);
+      scrollToQuestion(id);
+    }
+
+    function updateCompletedCount() {
+      const completed = Object.values(paperCheckStatus).filter(Boolean).length;
+      document.getElementById('tracker-counter').innerText = `${completed}/10`;
+      document.getElementById('mobile-tracker-counter').innerText = `${completed}/10 câu`;
+    }
+
+    // BẮT ĐẦU ĐẾM GIỜ LÀM BÀI
+    function startExamSession() {
+      document.getElementById('screen-welcome').classList.add('hidden');
+      document.getElementById('screen-exam').classList.remove('hidden');
+
+      // Bật đồng hồ và nút nộp
+      const timerBadge = document.getElementById('timer-badge');
+      const submitBtn = document.getElementById('header-submit-btn');
+      const progressWrap = document.getElementById('timer-progress-wrap');
+
+      timerBadge.classList.remove('hidden');
+      timerBadge.classList.add('flex');
+      submitBtn.classList.remove('hidden');
+      submitBtn.classList.add('flex');
+      progressWrap.classList.remove('hidden');
+
+      timeRemaining = EXAM_DURATION;
+      updateTimerDisplay();
+
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          onTimeOutExam();
+        }
+      }, 1000);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timeRemaining / 60);
+      const secs = timeRemaining % 60;
+      const str = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      const display = document.getElementById('timer-display');
+      const badge = document.getElementById('timer-badge');
+      const icon = document.getElementById('timer-icon');
+      const bar = document.getElementById('timer-progress-bar');
+
+      display.innerText = str;
+
+      // Tính % thanh tiến độ
+      const pct = (timeRemaining / EXAM_DURATION) * 100;
+      bar.style.width = `${pct}%`;
+
+      // Cảnh báo dưới 3 phút (180s)
+      if (timeRemaining <= 180) {
+        badge.className = "flex items-center gap-2 bg-rose-600 text-white px-3 py-1.5 rounded-xl font-bold shadow-md animate-pulse";
+        icon.className = "fa-solid fa-fire text-white text-sm";
+        display.className = "math-font text-sm sm:text-base tracking-wider text-white font-bold";
+        bar.className = "h-full bg-rose-600 transition-all duration-1000 ease-linear";
+      } else {
+        badge.className = "flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl font-bold shadow-xs";
+        icon.className = "fa-regular fa-clock text-slate-500 text-sm";
+        display.className = "math-font text-sm sm:text-base tracking-wider text-slate-900 font-bold";
+        bar.className = "h-full bg-indigo-600 transition-all duration-1000 ease-linear";
+      }
+    }
+
+    // Modal xác nhận nộp bài
+    function confirmSubmitModal() {
+      const doneCount = Object.values(paperCheckStatus).filter(Boolean).length;
+      const modal = document.getElementById('modal-submit');
+      const text = document.getElementById('modal-submit-text');
+
+      text.innerHTML = `Bạn đã đánh dấu xong <strong>${doneCount}/10 câu</strong> trên giấy. Thời gian còn lại: <strong>${Math.floor(timeRemaining / 60)} phút ${timeRemaining % 60} giây</strong>. Bạn có chắc chắn muốn nộp để xem đáp án chi tiết và tự chấm điểm?`;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeSubmitModal() {
+      const modal = document.getElementById('modal-submit');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function onTimeOutExam() {
+      const modal = document.getElementById('modal-timeout');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    // Nộp bài và chuyển sang chế độ chấm điểm
+    function submitExamNow() {
+      clearInterval(timerInterval);
+      closeSubmitModal();
+      document.getElementById('modal-timeout').classList.add('hidden');
+      document.getElementById('modal-timeout').classList.remove('flex');
+
+      // Ẩn màn hình thi & header controls
+      document.getElementById('screen-exam').classList.add('hidden');
+      document.getElementById('timer-badge').classList.add('hidden');
+      document.getElementById('header-submit-btn').classList.add('hidden');
+      document.getElementById('timer-progress-wrap').classList.add('hidden');
+
+      // Hiện màn hình chấm điểm
+      document.getElementById('screen-grading').classList.remove('hidden');
+
+      renderSolutionReview();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Render giao diện xem đáp án & tự chấm điểm
+    function renderSolutionReview() {
+      const container = document.getElementById('solutions-container');
+      container.innerHTML = questionsData.map((q) => {
+        const isDone = !!paperCheckStatus[q.id];
+
+        return `
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+            
+            <!-- Tiêu đề câu và nút chấm Đúng/Sai -->
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center">
+                  ${q.id}
+                </span>
+                <div>
+                  <h3 class="font-extrabold text-slate-900 text-base sm:text-lg">${q.title}</h3>
+                  <div class="flex items-center gap-2 mt-0.5">
+                    <span class="text-xs ${isDone ? 'text-emerald-700 bg-emerald-50' : 'text-slate-500 bg-slate-100'} px-2 py-0.5 rounded-md font-semibold">
+                      ${isDone ? '✓ Đã đánh dấu làm trên giấy' : '• Chưa đánh dấu làm'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Hai nút bấm tự chấm điểm -->
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wide mr-1">Tự chấm:</span>
+                <button 
+                  id="btn-score-correct-${q.id}" 
+                  onclick="gradeQuestion(${q.id}, 1)"
+                  class="px-3.5 py-2 rounded-xl border border-emerald-300 text-emerald-700 hover:bg-emerald-50 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-check"></i> Đúng (+1đ)
+                </button>
+                <button 
+                  id="btn-score-wrong-${q.id}" 
+                  onclick="gradeQuestion(${q.id}, 0)"
+                  class="px-3.5 py-2 rounded-xl border border-rose-300 text-rose-700 hover:bg-rose-50 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-xmark"></i> Sai (0đ)
+                </button>
+              </div>
+            </div>
+
+            <!-- Đề bài -->
+            <div class="text-slate-800 text-sm sm:text-base leading-relaxed">
+              ${q.content}
+            </div>
+
+            <!-- Đáp số chuẩn tóm tắt -->
+            <div class="flex items-center gap-2.5 bg-emerald-50 border border-emerald-200/80 rounded-2xl p-3.5">
+              <span class="text-xs font-extrabold text-emerald-800 uppercase tracking-wider bg-emerald-200/70 px-2.5 py-1 rounded-lg">
+                Đáp số chuẩn:
+              </span>
+              <span class="text-sm sm:text-base font-bold text-emerald-900 math-font">
+                ${q.resultShort}
+              </span>
+            </div>
+
+            <!-- Hướng dẫn giải từng bước -->
+            <div class="bg-indigo-50/40 border border-indigo-100 rounded-2xl p-4 sm:p-5">
+              <div class="font-bold text-indigo-950 text-xs uppercase tracking-wider mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-book-open text-indigo-600"></i> Các bước trình bày tự luận chi tiết:
+              </div>
+              <div class="text-slate-700 leading-relaxed text-sm">
+                ${q.solution}
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Tự chấm điểm từng câu
+    function gradeQuestion(qId, score) {
+      selfGradingScores[qId] = score;
+
+      const btnCorrect = document.getElementById(`btn-score-correct-${qId}`);
+      const btnWrong = document.getElementById(`btn-score-wrong-${qId}`);
+
+      if (score === 1) {
+        btnCorrect.className = "px-3.5 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 cursor-pointer";
+        btnWrong.className = "px-3.5 py-2 rounded-xl border border-slate-200 text-slate-400 hover:text-rose-600 text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer";
+      } else {
+        btnWrong.className = "px-3.5 py-2 rounded-xl bg-rose-600 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 cursor-pointer";
+        btnCorrect.className = "px-3.5 py-2 rounded-xl border border-slate-200 text-slate-400 hover:text-emerald-600 text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer";
+      }
+
+      calculateScore();
+    }
+
+    // Tính tổng điểm và đưa ra nhận xét
+    function calculateScore() {
+      let total = 0;
+      let gradedCount = 0;
+
+      for (let i = 1; i <= 10; i++) {
+        if (selfGradingScores[i] !== undefined) {
+          total += selfGradingScores[i];
+          gradedCount++;
+        }
+      }
+
+      document.getElementById('final-total-score').innerText = `${total} / 10`;
+
+      const ratingText = document.getElementById('final-rating-text');
+      if (gradedCount < 10) {
+        ratingText.innerText = `Đã tự chấm: ${gradedCount}/10 câu`;
+      } else {
+        if (total >= 9) {
+          ratingText.innerText = "Xuất sắc! Bạn nắm vững toàn bộ hệ thức lượng.";
+        } else if (total >= 7) {
+          ratingText.innerText = "Khá tốt! Hãy củng cố thêm các câu Heron & trung tuyến.";
+        } else if (total >= 5) {
+          ratingText.innerText = "Đạt yêu cầu. Cần rèn luyện thêm biến đổi công thức.";
+        } else {
+          ratingText.innerText = "Cần ôn tập lại lý thuyết định lý Sin và Cô-sin!";
+        }
+      }
+    }
+
+    // Làm lại bài
+    function restartExam() {
+      paperCheckStatus = {};
+      selfGradingScores = {};
+      timeRemaining = EXAM_DURATION;
+
+      document.getElementById('screen-grading').classList.add('hidden');
+      document.getElementById('screen-welcome').classList.remove('hidden');
+
+      renderQuestions();
+      renderTrackers();
+      updateCompletedCount();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
